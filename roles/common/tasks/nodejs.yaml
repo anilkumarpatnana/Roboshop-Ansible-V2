@@ -1,0 +1,12 @@
+    - name: Disabling default Nodejs module
+      ansible.builtin.command: dnf module disable nodejs -y
+    - name: Enabling nodejs:24 module
+      ansible.builtin.command: dnf module enable nodejs:24 -y
+    - name: Installing nodejs
+      ansible.builtin.package:
+          name: nodejs
+          state: present
+    - name: moving to /app directory and installing dependencies
+      ansible.builtin.command: npm install
+      args:
+        chdir: /app

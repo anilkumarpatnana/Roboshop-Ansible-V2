@@ -1,0 +1,31 @@
+    
+    - name: application setup
+      include_role:
+          name: common
+          tasks_from: app-setup
+
+    - name: nodejs setup
+      include_role:
+          name: common
+          tasks_from: nodejs
+
+    - name: nodejs setup
+      include_role:
+          name: common
+          tasks_from: systemd-setup     
+
+    - name: Copying mongo.repo file to /etc/yum.repos.d/mongo.repo
+      ansible.builtin.copy:
+            src: mongo.repo
+            dest: /etc/yum.repos.d/mongo.repo
+    - name: Installing mongodb-mongosh client for loading the data to mysql-server
+      ansible.builtin.package:
+            name: mongodb-mongosh
+            state: present
+    - name: Loading data to mysql-server
+      ansible.builtin.shell: mongosh --host {{mongodb_host}} </app/db/master-data.js
+    
+    - name: restarting application
+      include_role:
+          name: common
+          tasks_from: restart

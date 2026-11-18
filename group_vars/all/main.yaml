@@ -4,3 +4,4 @@ rabbitmq_user: "{{vault_rabbitmq_user}}"
 rabbitmq_password: "{{vault_rabbitmq_password}}"
 mysql_secure_installation: "{{vault_mysql_secure_installation}}"
 servers: ["mongodb","redis","mysql","rabbitmq","catalogue","user","cart","shipping","payment","frontend"]
+mongodb_host: roboshop.mongodb.anilkumarpatnana.online
