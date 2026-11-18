@@ -1,0 +1,35 @@
+    - name: Copying rabbitmq repo file 
+      ansible.builtin.copy:
+        src: rabbitmq.repo
+        dest: /etc/yum.repos.d/rabbitmq.repo
+    - name: Installing erlang rabbitmq server package
+      ansible.builtin.package:
+        name:
+          - erlang
+          - rabbitmq-server
+        state: present
+    - name : Starting and enabling rabbitmq-server service
+      ansible.builtin.service:
+        name: rabbitmq-server
+        state: started
+        enabled: yes
+    - name: Creating roboshop user in rabbitmq
+      community.rabbitmq.rabbitmq_user:
+        user: roboshop
+        password: roboshop123
+        vhost: /
+        configure_priv: .*
+        read_priv: .*
+        write_priv: .*
+        tags: administrator
+        state: present
+    - name: providing permissions for roboshop user and enabling UI of rabbitmq
+      ansible.builtin.command: "{{item}}"
+      loop:
+        - rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+        - rabbitmq-plugins enable rabbitmq_management
+        - rabbitmqctl set_user_tags roboshop administrator
+    - name: access UI of rabbitmq using below url and credentials
+      ansible.builtin.debug:
+        msg: "Open http://<RABBITMQ-PUBLIC-IP>:15672 and log in as roboshop / roboshop123. Add port 15672 from your IP to the security group first."
+
