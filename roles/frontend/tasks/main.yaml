@@ -1,0 +1,28 @@
+    - name: Disabling default Nginx module
+      ansible.builtin.command: dnf module disable nginx -y
+    - name: Enabling nginx:1.26 module
+      ansible.builtin.command: dnf module enable nginx:1.26 -y
+    - name: Installing Nginx
+      ansible.builtin.package:
+          name: nginx
+          state: present
+    - name: Removing default contnent from nginx path
+      ansible.builtin.command: rm -rf /usr/share/nginx/html/*
+    - name: Downloading the frontend application code
+      ansible.builtin.command: curl -L -o /tmp/frontend.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/frontend-v4.zip
+    - name: Unzipping code to nginx home directory
+      ansible.builtin.unarchive:
+              src: /tmp/frontend.zip
+              dest: /usr/share/nginx/html
+              remote_src: true 
+    - name: Copying Nginx reverse proxy configuration file to /etc/nginx/default.d/roboshop.conf
+      ansible.builtin.copy:
+           src: roboshop.conf
+           dest: /etc/nginx/default.d/roboshop.conf
+      notify: restart nginx
+    - name: starting and enabling Nginx service
+      ansible.builtin.service:
+            name: nginx
+            state: started
+            enabled: yes
+
