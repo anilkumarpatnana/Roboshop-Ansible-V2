@@ -1,0 +1,130 @@
+    
+    - name: application setup
+      include_role: 
+          name: common
+          tasks_from: app-setup
+    
+    - name: java setup 
+      include_role:
+          name: common
+          tasks_from: java-setup
+
+    - name: systemd setup
+      include_role:
+          name: common
+          tasks_from: systemd-setup
+    
+    - name: Loading shipping data to mysql-server using MySQL client
+      ansible.builtin.shell: mysql -h roboshop.mysql.anilkumarpatnana.online -uroot -pRoboShop@1 < /app/db/master-data.sql
+
+    - name: Creating app user for cities database
+      ansible.builtin.shell: mysql -h roboshop.mysql.anilkumarpatnana.online -uroot -pRoboShop@1 < /app/db/app-user.sql
+
+    - name: Copying shipping service file to /etc/systemd/system/shipping.service
+      ansible.builtin.copy:
+        src: shipping.service
+        dest: /etc/systemd/system/shipping.service
+
+    
+    - name: restart systemd and service
+      include_role:
+          name: common
+          tasks_from: restart
+    
+    
+    
+    
+    # - name: Enabling module maven:3.9
+    #   ansible.builtin.command: dnf module enable maven:3.9 -y
+
+    # - name: Installing maven and java25
+    #   ansible.builtin.package:
+    #     name: "{{ item }}"
+    #     state: present
+    #   loop:
+    #     - maven
+    #     - java-25-openjdk-devel
+    #     - maven-openjdk25 # installing this so that we no need to set JAVA_HOME again
+    #     - mysql
+    # - name: Set default Java version to Java 25 via alternatives
+    #   ansible.builtin.alternatives:
+    #     name: java
+    #     path: /usr/lib/jvm/java-25-openjdk/bin/java
+
+    # - name: Setting up JAVA_HOME profile
+    #   ansible.builtin.shell: |
+    #     echo "export JAVA_HOME=/usr/lib/jvm/java-25-openjdk" > /etc/profile.d/java.sh
+    #     echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile.d/java.sh
+    #   args:
+    #     executable: /bin/bash
+    
+    # - name: Build the application with Java 25
+    #   ansible.builtin.command: mvn clean package
+    #   args:
+    #     chdir: /app
+    #   environment:
+    #     JAVA_HOME: /usr/lib/jvm/java-25-openjdk
+
+    # - name: Move built jar to root of working directory
+    #   ansible.builtin.command: mv target/shipping.jar shipping.jar
+    #   args:
+    #     chdir: /app
+
+
+
+    # - name: Creating /app directory
+    #   ansible.builtin.file:
+    #     path: /app
+    #     state: directory
+
+    # - name: Creating user roboshop for running shipping service
+    #   ansible.builtin.user:
+    #     name: roboshop
+    #     shell: /sbin/nologin
+    #     home: /app
+
+    # - name: Downloading application artifact to /tmp
+    #   ansible.builtin.get_url:
+    #     url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-v4.zip
+    #     dest: /tmp/shipping.zip
+
+    # - name: Unzipping files to /app
+    #   ansible.builtin.unarchive:
+    #     src: /tmp/shipping.zip
+    #     dest: /app/
+    #     remote_src: yes
+    #     owner: roboshop
+    #     group: roboshop
+
+    # - name: Loading shipping data to mysql-server using MySQL client
+    #   ansible.builtin.shell: mysql -h roboshop.mysql.anilkumarpatnana.online -uroot -pRoboShop@1 < /app/db/master-data.sql
+
+    # - name: Creating app user for cities database
+    #   ansible.builtin.shell: mysql -h roboshop.mysql.anilkumarpatnana.online -uroot -pRoboShop@1 < /app/db/app-user.sql
+
+    # - name: Copying shipping service file to /etc/systemd/system/shipping.service
+    #   ansible.builtin.copy:
+    #     src: shipping.service
+    #     dest: /etc/systemd/system/shipping.service
+
+    # - name: Adding Cart IP address in shipping service file
+    #   ansible.builtin.replace:
+    #     path: /etc/systemd/system/shipping.service
+    #     regexp: '<CART-SERVER-IPADDRESS>'
+    #     replace: roboshop.cart.anilkumarpatnana.online
+
+    # - name: Adding MySQL IP address in shipping service file
+    #   ansible.builtin.replace:
+    #     path: /etc/systemd/system/shipping.service
+    #     regexp: '<MYSQL-SERVER-IPADDRESS>'
+    #     replace: roboshop.mysql.anilkumarpatnana.online
+
+    # - name: Reloading systemd daemon
+    #   ansible.builtin.systemd:
+    #     daemon_reload: true
+
+    # - name: Starting and enabling shipping service
+    #   ansible.builtin.service:
+    #     name: shipping
+    #     state: started
+    #     enabled: yes

@@ -1,0 +1,83 @@
+
+   - name: application setup
+     include_role:
+         name: common
+         tasks_from: app-setup
+
+   - name: python setup
+     include_role:
+         name: common
+         tasks_from: python-setup
+
+   - name: systemd setup
+     include_role:
+          name: common
+          tasks_from: systemd-setup
+
+   - name: restart systemd and service
+     include_role:
+          name: common
+          tasks_from: restart 
+   
+   
+   
+   
+  #  - name: Installing python3.14 and python3.14-pip
+  #    ansible.builtin.package:
+  #               name: "{{item}}"
+  #               state: present
+  #    loop:
+  #       - python3.14
+  #       - python3.14-pip
+  #  - name: Creating /app directory
+  #    ansible.builtin.file:
+  #             path: /app
+  #             state: directory
+  #  - name: Creating user roboshop for running payment service
+  #    ansible.builtin.user:
+  #             name: roboshop
+  #             shell: /sbin/nologin
+  #             home: /app
+  #  - name: Downloading application to /tmp
+  #    ansible.builtin.shell: curl -L -o /tmp/payment.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/payment-v4.zip
+  #  - name: unzipping files to /app
+  #    ansible.builtin.unarchive:
+  #               src: /tmp/payment.zip
+  #               dest: /app
+  #               remote_src: yes
+  #  - name: Build the application and install dependencies
+  #    ansible.builtin.shell: python3.14 -m venv /app/.venv && /app/.venv/bin/pip install -r requirements.txt
+  #    args:
+  #      chdir: /app
+  #  - name: Copying payment service file to /etc/systemd/system/payment.service
+  #    ansible.builtin.copy:
+  #             src: payment.service
+  #             dest: /etc/systemd/system/payment.service
+  #  - name: Adding Cart ip address in payment service file /etc/systemd/system/payment.service
+  #    ansible.builtin.replace:
+  #             path: /etc/systemd/system/payment.service
+  #             regexp: '<CART-SERVER-IPADDRESS>'
+  #             replace: roboshop.cart.anilkumarpatnana.online
+  #  - name: Adding User ip address in payment service file /etc/systemd/system/payment.service
+  #    ansible.builtin.replace:
+  #             path: /etc/systemd/system/payment.service
+  #             regexp: '<USER-SERVER-IPADDRESS>'
+  #             replace: roboshop.user.anilkumarpatnana.online
+  #  - name: Adding Rabbitmq ip address in payment service file /etc/systemd/system/payment.service
+  #    ansible.builtin.replace:
+  #             path: /etc/systemd/system/payment.service
+  #             regexp: '<RABBITMQ-SERVER-IPADDRESS>'
+  #             replace: roboshop.rabbitmq.anilkumarpatnana.online
+  #  - name: Reloading systemd daemon
+  #    ansible.builtin.systemd:
+  #             daemon_reload: true
+  #  - name: Starting and enabling payment service 
+  #    ansible.builtin.service:
+  #             name: payment
+  #             state: started
+  #             enabled: yes
+
+     
+
+
+   

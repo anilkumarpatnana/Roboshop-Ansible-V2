@@ -1,0 +1,11 @@
+   - name: Installing python3.14 and python3.14-pip
+     ansible.builtin.package:
+                name: "{{item}}"
+                state: present
+     loop:
+        - python3.14
+        - python3.14-pip
+   - name: Build the application and install dependencies
+     ansible.builtin.shell: python3.14 -m venv /app/.venv && /app/.venv/bin/pip install -r requirements.txt
+     args:
+       chdir: /app

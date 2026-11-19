@@ -1,0 +1,77 @@
+    - name: nodejs setup
+      include_role: 
+        name: common
+        tasks_from: nodejs 
+    
+    - name: application setup
+      include_role: 
+        name: common
+        tasks_from: app-setup 
+
+    - name: systemd setup
+      include_role: 
+        name: common
+        tasks_from: systemd-setup
+    
+    - name: restart systemd and service
+      include_role: 
+        name: common
+        tasks_from: nodejs
+    
+    
+    
+    
+    
+    # - name: Disabling default Nodejs module
+    #   ansible.builtin.command: dnf module disable nodejs -y
+    # - name: Enabling nodejs:24 module
+    #   ansible.builtin.command: dnf module enable nodejs:24 -y
+    # - name: Installing nodejs
+    #   ansible.builtin.package:
+    #       name: nodejs
+    #       state: present
+    # - name: Creating app directory
+    #   ansible.builtin.file:
+    #       path: /app
+    #       state: directory
+    # - name: Creating system user roboshop for running cart service
+    #   ansible.builtin.user:
+    #       name: roboshop
+    #       state: present
+    #       shell: /sbin/nologin
+    #       home: /app
+    # - name: Downloading the cart application code
+    #   ansible.builtin.command: curl -L -o /tmp/cart.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/cart-v4.zip
+    # - name: Unzipping code to /app directory
+    #   ansible.builtin.unarchive:
+    #           src: /tmp/cart.zip
+    #           dest: /app
+    #           remote_src: true 
+    # - name: moving to /app directory and installing dependencies
+    #   ansible.builtin.command: npm install
+    #   args:
+    #     chdir: /app
+    # - name: Copying cart service file to /etc/systemd/system/cart.service
+    #   ansible.builtin.copy:
+    #        src: cart.service
+    #        dest: /etc/systemd/system/cart.service
+    # - name: Adding Catalogue server address in cart service file
+    #   ansible.builtin.replace:
+    #         path: /etc/systemd/system/cart.service
+    #         regexp: '<CATALOGUE-SERVER-IPADDRESS>'
+    #         replace: 'roboshop.catalogue.anilkumarpatnana.online'
+    # - name: Adding redis server address in cart service file
+    #   ansible.builtin.replace:
+    #         path: /etc/systemd/system/cart.service
+    #         regexp: '<REDIS-SERVER-IPADDRESS>'
+    #         replace: 'roboshop.redis.anilkumarpatnana.online'        
+    # - name: Reloading systemd
+    #   ansible.builtin.systemd:
+    #         daemon_reload: true
+    # - name: starting and enabling cart service
+    #   ansible.builtin.service:
+    #         name: cart
+    #         state: started
+    #         enabled: yes
+    
+

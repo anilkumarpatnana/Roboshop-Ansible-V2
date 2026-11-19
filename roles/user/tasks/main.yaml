@@ -1,0 +1,92 @@
+ 
+ - name: application setup
+   include_role: 
+        name: common
+        tasks_from: app-setup
+
+ - name: nodejs setup
+   include_role: 
+        name: common
+        tasks_from: nodejs
+
+ - name: systemd setup
+   include_role: 
+        name: common
+        tasks_from: systemd-setup
+ 
+ - name: restarting systemd and service
+   include_role: 
+        name: common
+        tasks_from: restart
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    # - name: Disabling default Nodejs module
+    #   ansible.builtin.command: dnf module disable nodejs -y
+    # - name: Enabling nodejs:24 module
+    #   ansible.builtin.command: dnf module enable nodejs:24 -y
+    # - name: Installing nodejs
+    #   ansible.builtin.package:
+    #       name: nodejs
+    #       state: present
+    # - name: Creating app directory
+    #   ansible.builtin.file:
+    #       path: /app
+    #       state: directory
+    # - name: Creating system user roboshop for running user service
+    #   ansible.builtin.user:
+    #       name: roboshop
+    #       state: present
+    #       shell: /sbin/nologin
+    #       home: /app
+    # - name: Downloading the user application code
+    #   ansible.builtin.command: curl -L -o /tmp/user.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/user-v4.zip
+    # - name: Unzipping code to /app directory
+    #   ansible.builtin.unarchive:
+    #           src: /tmp/user.zip
+    #           dest: /app
+    #           remote_src: true 
+    # - name: moving to /app directory and installing dependencies
+    #   ansible.builtin.command: npm install
+    #   args:
+    #     chdir: /app
+    # - name: Copying user service file to /etc/systemd/system/user.service
+    #   ansible.builtin.copy:
+    #        src: user.service
+    #        dest: /etc/systemd/system/user.service
+    # - name: Adding Mongodb server address in service file
+    #   ansible.builtin.replace:
+    #         path: /etc/systemd/system/user.service
+    #         regexp: '<MONGODB-SERVER-IPADDRESS>'
+    #         replace: 'roboshop.mongodb.anilkumarpatnana.online'
+    # - name: Adding redis server address in service file
+    #   ansible.builtin.replace:
+    #         path: /etc/systemd/system/user.service
+    #         regexp: '<REDIS-SERVER-IPADDRESS>'
+    #         replace: 'roboshop.redis.anilkumarpatnana.online'        
+    # - name: Reloading systemd
+    #   ansible.builtin.systemd:
+    #         daemon_reload: true
+    # - name: starting and enabling user service
+    #   ansible.builtin.service:
+    #         name: user
+    #         state: started
+    #         enabled: yes
+    
+

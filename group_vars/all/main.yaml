@@ -3,5 +3,20 @@ ansible_password: "{{vault_ansible_password}}"
 rabbitmq_user: "{{vault_rabbitmq_user}}"
 rabbitmq_password: "{{vault_rabbitmq_password}}"
 mysql_secure_installation: "{{vault_mysql_secure_installation}}"
+shipping_db_user: "{{vault_shipping_db_user}}"
+shipping_db_password: "{{vault_shipping_db_password}}"
+rabbitmq_amqp_user: "{{vault_rabbitmq_amqp_user}}"
+rabbitmq_amqp_password: "{{vault_rabbitmq_amqp_password}}"
+
 servers: ["mongodb","redis","mysql","rabbitmq","catalogue","user","cart","shipping","payment","frontend"]
+
 mongodb_host: roboshop.mongodb.anilkumarpatnana.online
+redis_host: roboshop.redis.anilkumarpatnana.online
+mysql_host: roboshop.mysql.anilkumarpatnana.online
+rabbitmq_host: roboshop.rabbitmq.anilkumarpatnana.online
+catalogue_host: roboshop.catalogue.anilkumarpatnana.online
+user_host: roboshop.user.anilkumarpatnana.online
+cart_host: roboshop.cart.anilkumarpatnana.online
+shipping_host: roboshop.shipping.anilkumarpatnana.online
+payment_host: roboshop.payment.anilkumarpatnana.online
+frontend_host: roboshop.frontend.anilkumarpatnana.online
