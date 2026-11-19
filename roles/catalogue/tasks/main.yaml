@@ -9,7 +9,7 @@
           name: common
           tasks_from: nodejs
 
-    - name: nodejs setup
+    - name: systemd setup
       include_role:
           name: common
           tasks_from: systemd-setup     
