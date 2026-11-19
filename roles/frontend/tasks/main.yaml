@@ -15,11 +15,15 @@
               src: /tmp/frontend.zip
               dest: /usr/share/nginx/html
               remote_src: true 
+
+              
     - name: Copying Nginx reverse proxy configuration file to /etc/nginx/default.d/roboshop.conf
       ansible.builtin.template:
            src: roboshop.conf.j2
            dest: /etc/nginx/default.d/roboshop.conf
       notify: restart nginx
+
+
     - name: starting and enabling Nginx service
       ansible.builtin.service:
             name: nginx
