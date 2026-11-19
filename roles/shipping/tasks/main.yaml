@@ -20,11 +20,6 @@
     - name: Creating app user for cities database
       ansible.builtin.shell: mysql -h roboshop.mysql.anilkumarpatnana.online -uroot -pRoboShop@1 < /app/db/app-user.sql
 
-    - name: Copying shipping service file to /etc/systemd/system/shipping.service
-      ansible.builtin.copy:
-        src: shipping.service
-        dest: /etc/systemd/system/shipping.service
-
     
     - name: restart systemd and service
       include_role:
