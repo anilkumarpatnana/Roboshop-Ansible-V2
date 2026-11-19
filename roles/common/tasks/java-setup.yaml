@@ -1,7 +1,7 @@
     - name: Enabling module maven:3.9
       ansible.builtin.command: dnf module enable maven:3.9 -y
 
-    - name: Installing maven and java25
+    - name: Installing maven and java25 and mysql
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
